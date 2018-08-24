@@ -6,35 +6,34 @@ module.exports = app => {
       const { ctx } = this;
       const { User } = ctx.model;
 
-      const { body } = ctx.request;
+      const data = ctx.request.body;
       const rule = {
+        nickName: { type: 'string', required: true },
         username: { type: 'string', required: true },
         password: { type: 'string', required: true },
-        checkPassword: { type: 'string', required: true },
       };
 
-      ctx.validate(rule, body);
+      ctx.validate(rule, data);
 
-      const user = await User.findOne({ username: body.username });
-
-      if (user) {
-        throw new Error('已经存在相同用户名！');
+      try {
+        const user = await User.create(data);
+        ctx.body = {
+          user,
+        };
+      } catch (error) {
+        if (error.code === 11000) {
+          throw ctx.createHttpError('该用户已存在!');
+        }
       }
 
-      const item = await User.create(body);
-
-      ctx.body = {
-        item,
-      };
     }
     async destroy() {
       const { ctx } = this;
       const { User } = ctx.model;
 
       const user = await User.findByIdAndDelete(ctx.params.id);
-
       if (!user) {
-        throw new Error('该用户不存在！');
+        throw ctx.createHttpError('该用户不存在!');
       }
 
       ctx.body = user;
@@ -42,14 +41,17 @@ module.exports = app => {
     async update() {
       const { ctx } = this;
       const { User } = ctx.model;
-      const { body } = ctx.request;
+      const { id } = ctx.params;
+      const data = ctx.request.body;
 
-      const user = await User.findByIdAndUpdate(ctx.params.id, { password: body.password }, { new: true });
+      delete data.username;
+      const user = await User.findByIdAndUpdate(id, data, { new: true });
       if (!user) {
-        throw new Error('该用户不存在！');
+        throw ctx.createHttpError('您的账号不存在!');
       }
-
-      ctx.body = user;
+      ctx.body = {
+        user,
+      };
     }
     async show() {
       const { ctx } = this;
@@ -57,7 +59,7 @@ module.exports = app => {
 
       const user = await User.findById(ctx.params.id);
       if (!user) {
-        throw new Error('该用户不存在！');
+        throw ctx.createHttpError('该用户不存在!');
       }
 
       ctx.body = user;
@@ -68,7 +70,32 @@ module.exports = app => {
 
       const users = await User.find();
 
-      ctx.body = users;
+      ctx.body = {
+        users,
+      };
+    }
+    async login() {
+      const { ctx } = this;
+      const { User } = ctx.model;
+
+      const data = ctx.request.body;
+
+      const user = await User.findOne({
+        username: data.username,
+        password: data.password,
+      });
+
+      if (!user) {
+        throw ctx.createHttpError('账号密码错误');
+      }
+
+      const token = ctx.signTokenWidthJTW({ _id: user._id, password: data.password });
+
+      ctx.cookies.set('token', token);
+
+      ctx.body = {
+        user,
+      };
     }
   }
 

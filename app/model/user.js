@@ -4,7 +4,8 @@ module.exports = app => {
   const mongoose = app.mongoose;
 
   const UserSchema = new mongoose.Schema({
-    username: { type: String, require: true },
+    nickName: { type: String, require: true },
+    username: { type: String, require: true, index: true, unique: true },
     password: { type: String, require: true },
   });
 
