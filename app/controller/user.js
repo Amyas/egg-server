@@ -102,7 +102,7 @@ module.exports = app => {
       });
 
       if (!user) {
-        throw ctx.createHttpError('账号密码错误');
+        throw ctx.createHttpError('账号密码错误!');
       }
 
       const token = ctx.signTokenWidthJTW({ _id: user._id, password: data.password });
