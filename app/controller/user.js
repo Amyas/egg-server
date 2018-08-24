@@ -38,6 +38,22 @@ module.exports = app => {
 
       ctx.body = user;
     }
+    async destroyBatch() {
+      const { ctx } = this;
+      const { User } = ctx.model;
+
+      const data = ctx.request.body;
+
+      const removeUsers = [];
+      for (const id of JSON.parse(data.ids)) {
+        const user = await User.findByIdAndDelete(id);
+        removeUsers.push(user);
+      }
+
+      ctx.body = {
+        removeUsers,
+      };
+    }
     async update() {
       const { ctx } = this;
       const { User } = ctx.model;
@@ -45,7 +61,7 @@ module.exports = app => {
       const data = ctx.request.body;
 
       delete data.username;
-      const user = await User.findByIdAndUpdate(id, data, { new: true });
+      const user = await User.findByIdAndUpdate(id, { $set: data }, { new: true });
       if (!user) {
         throw ctx.createHttpError('您的账号不存在!');
       }
