@@ -63,7 +63,7 @@ module.exports = app => {
       delete data.username;
       const user = await User.findByIdAndUpdate(id, { $set: data }, { new: true });
       if (!user) {
-        throw ctx.createHttpError('您的账号不存在!');
+        throw ctx.createHttpError('该用户不存在!');
       }
       ctx.body = {
         user,
