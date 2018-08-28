@@ -13,10 +13,10 @@ module.exports = appInfo => {
     },
   };
 
-  config.cors = {
-    origin: 'http://127.0.0.1:8080',
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
-  };
+  // config.cors = {
+  //   origin: 'http://127.0.0.1:8080',
+  //   allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
+  // };
 
   config.auth = {
     secrets: 'amyas',
