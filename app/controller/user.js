@@ -36,7 +36,9 @@ module.exports = app => {
         throw ctx.createHttpError('该用户不存在!');
       }
 
-      ctx.body = user;
+      ctx.body = {
+        user,
+      };
     }
     async destroyBatch() {
       const { ctx } = this;
@@ -78,7 +80,9 @@ module.exports = app => {
         throw ctx.createHttpError('该用户不存在!');
       }
 
-      ctx.body = user;
+      ctx.body = {
+        user,
+      };
     }
     async index() {
       const { ctx } = this;
@@ -107,10 +111,9 @@ module.exports = app => {
 
       const token = ctx.signTokenWidthJTW({ _id: user._id, password: data.password });
 
-      ctx.cookies.set('token', token);
-
       ctx.body = {
         user,
+        token,
       };
     }
   }
