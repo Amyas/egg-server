@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 module.exports = option => {
   return async function(ctx, next) {
     const { User } = ctx.model;
-    const { headers, url } = ctx.request;
+    const { url } = ctx.request;
     const secrets = option.secrets;
-    const token = headers.token;
+    const token = ctx.cookies.get('token');
 
     if (url === '/api/login') {
       await next();

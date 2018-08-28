@@ -111,9 +111,10 @@ module.exports = app => {
 
       const token = ctx.signTokenWidthJTW({ _id: user._id, password: data.password });
 
+      ctx.cookies.set('token', token);
+
       ctx.body = {
         user,
-        token,
       };
     }
   }
