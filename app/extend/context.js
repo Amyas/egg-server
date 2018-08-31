@@ -12,4 +12,12 @@ module.exports = {
     const secrets = this.app.config.auth.secrets;
     return jwt.sign(params, secrets, { expiresIn: time });
   },
+  handleQuery(query) {
+    return {
+      pageNumber: Number(query.pageNumber) || 1, // 页数
+      pageSize: Number(query.pageSize) || 2, // 每页个数
+      sortBy: query.sortBy || '_id', // 排序字段
+      orderBy: Number(query.orderBy) || -1, // 1=升序，-1=降序
+    };
+  },
 };
