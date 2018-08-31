@@ -91,14 +91,14 @@ module.exports = app => {
       const { User } = ctx.model;
       const query = ctx.request.query;
 
-      const { pageNumber, pageSize, sortBy, orderBy } = ctx.handleQuery(query);
+      const { pageNumber, pageSize, sortBy, orderBy, filter } = ctx.handleQuery(query);
 
       const [ users, total ] = await Promise.all([
-        User.find()
+        User.find(filter)
           .skip((pageNumber - 1) * pageSize)// 跳过文档个数，第一页 = (1-1) * 20 = 0，第二页 = (2-1) * 20 = 20 跳过前20条数据 以此类推
           .limit(pageSize)// 限制显示文档个数
           .sort({ [sortBy]: orderBy }), // sortBy=排序字段，orderBy= 1升序 -1降序
-        User.count(),
+        User.count(filter),
       ]);
 
       ctx.body = {

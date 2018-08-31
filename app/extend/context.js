@@ -13,11 +13,21 @@ module.exports = {
     return jwt.sign(params, secrets, { expiresIn: time });
   },
   handleQuery(query) {
-    return {
-      pageNumber: Number(query.pageNumber) || 1, // 页数
-      pageSize: Number(query.pageSize) || 20, // 每页个数
-      sortBy: query.sortBy || 'createTime', // 排序字段
-      orderBy: Number(query.orderBy) || -1, // 1=升序，-1=降序
+    const newQuery = Object.assign({}, query);
+    const result = {
+      pageNumber: Number(newQuery.pageNumber) || 1, // 页数
+      pageSize: Number(newQuery.pageSize) || 20, // 每页个数
+      sortBy: newQuery.sortBy || 'createTime', // 排序字段
+      orderBy: Number(newQuery.orderBy) || -1, // 1=升序，-1=降序
     };
+
+    delete newQuery.pageNumber;
+    delete newQuery.pageSize;
+    delete newQuery.sortBy;
+    delete newQuery.orderBy;
+
+    result.filter = newQuery;
+
+    return result;
   },
 };
