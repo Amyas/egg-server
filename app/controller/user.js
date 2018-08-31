@@ -46,9 +46,11 @@ module.exports = app => {
 
       const data = ctx.request.body;
 
+      console.log(data);
+
       const removeUsers = [];
-      for (const id of JSON.parse(data.ids)) {
-        const user = await User.findByIdAndDelete(id);
+      for (const item of data) {
+        const user = await User.findByIdAndDelete(item._id);
         removeUsers.push(user);
       }
 

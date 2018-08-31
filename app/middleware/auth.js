@@ -9,10 +9,6 @@ module.exports = option => {
     const secrets = option.secrets;
     const token = headers.authorization;
 
-    // 调试
-    await next();
-    return;
-
     if (url === '/api/login') {
       await next();
       return;
