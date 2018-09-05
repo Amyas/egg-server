@@ -17,7 +17,7 @@ module.exports = {
     const result = {
       pageNumber: Number(newQuery.pageNumber) || 1, // 页数
       pageSize: Number(newQuery.pageSize) || 20, // 每页个数
-      sortBy: newQuery.sortBy || 'createTime', // 排序字段
+      sortBy: newQuery.sortBy || 'created', // 排序字段
       orderBy: Number(newQuery.orderBy) || -1, // 1=升序，-1=降序
     };
 
