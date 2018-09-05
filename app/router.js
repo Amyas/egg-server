@@ -7,4 +7,7 @@ module.exports = app => {
   router.resources('/user', '/api/user', controller.user);
   router.post('/api/login', 'user.login');
   router.post('/api/user/destroyBatch', 'user.destroyBatch');
+
+
+  router.resources('/article', '/api/article', controller.article);
 };
