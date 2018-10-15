@@ -5,6 +5,7 @@ module.exports = app => {
 
   const ArticleSchema = new mongoose.Schema({
     title: { type: String, require: true },
+    intro: { type: String, require: true },
     content: { type: String, require: true },
   }, {
     timestamps: {

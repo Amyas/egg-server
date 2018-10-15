@@ -9,7 +9,7 @@ module.exports = app => {
 
       const { pageNumber, pageSize, sortBy, orderBy, filter } = ctx.handleQuery(query);
 
-      const [ articles, total ] = await Promise.all([
+      const [ items, total ] = await Promise.all([
         Article.find(filter)
           .skip((pageNumber - 1) * pageSize)
           .limit(pageSize)
@@ -18,7 +18,7 @@ module.exports = app => {
       ]);
 
       ctx.body = {
-        articles,
+        items,
         total,
       };
     }
@@ -29,6 +29,7 @@ module.exports = app => {
 
       const rule = {
         title: { type: 'string', required: true },
+        intro: { type: 'string', required: true },
         content: { type: 'string', required: true },
       };
 
@@ -64,6 +65,19 @@ module.exports = app => {
       }
       ctx.body = {
         article,
+      };
+    }
+    async show() {
+      const { ctx } = this;
+      const { Article } = ctx.model;
+
+      const item = await Article.findById(ctx.params.id);
+      if (!item) {
+        throw ctx.createHttpError('该文章不勋在!');
+      }
+
+      ctx.body = {
+        item,
       };
     }
   }
