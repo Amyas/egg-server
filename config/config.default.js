@@ -5,7 +5,7 @@ module.exports = appInfo => {
 
   config.keys = appInfo.name + '_1534500367073_3865';
 
-  config.middleware = [ 'errorHandle' ];
+  config.middleware = [ 'errorHandle', 'auth' ];
 
   config.security = {
     csrf: {

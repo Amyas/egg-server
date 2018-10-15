@@ -88,7 +88,6 @@ module.exports = app => {
     }
     async index() {
       const { ctx } = this;
-      console.log('ctx.request', ctx.request);
       const { User } = ctx.model;
       const query = ctx.request.query;
 
