@@ -9,6 +9,7 @@ module.exports = option => {
     const secrets = option.secrets;
     const token = headers.authorization;
 
+    console.log(url);
     if (url === '/api/login') {
       await next();
       return;
