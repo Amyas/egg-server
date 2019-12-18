@@ -10,7 +10,9 @@
     "egg-mongoose": "^3.1.0",
     "egg-scripts": "^2.5.0",
     "egg-validate": "^1.1.1",
-    "jsonwebtoken": "^8.3.0"
+    "he": "^1.2.0",
+    "jsonwebtoken": "^8.3.0",
+    "pubg.js": "^3.7.2"
   },
   "devDependencies": {
     "autod": "^3.0.1",
